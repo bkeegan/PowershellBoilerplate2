@@ -11,7 +11,7 @@
 	https://github.com/bkeegan/PowershellBoilerplate2
     License: http://www.gnu.org/copyleft/gpl.html
 .EXAMPLE 
-	Get-NTFSDataStreams -p "C:|test\file1.ext"
+	Get-NTFSDataStreams -p "C:\test\file1.ext"
 	This command will list the datastreams present in the file1.ext file.
 #> 
 
@@ -28,20 +28,13 @@ function Get-NTFSDataStreams
 		[alias("r")]
 		[switch]$recurse
 	)
-	
-	if((Test-Path $path) -eq $true)
-	{		
-		if($recurse -eq $false)
-		{
-			Get-ChildItem -path $path | Get-Item -stream *
-		}
-		else
-		{
-			Get-ChildItem -path $path -r | Get-Item -stream *	
-		}
+		
+	if($recurse -eq $false)
+	{
+		Get-ChildItem -path $path | Get-Item -stream *
 	}
 	else
 	{
-		Throw "Cannot find path $path because it does not exist."
+		Get-ChildItem -path $path -r | Get-Item -stream *	
 	}
 }
