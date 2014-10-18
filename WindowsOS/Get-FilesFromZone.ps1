@@ -54,58 +54,55 @@ function Get-FilesFromZone
 		[parameter(Mandatory=$false)]
 		[alias("u")]
 		[switch]$untrusted
-		
-		
 	)
 	
-	if((Test-Path $path) -eq $true)
+	#if no zone was specified - default to internet zone.
+	if(($intranet -eq $false) -and ($trusted -eq $false) -and ($internet -eq $false) -and ($untrusted -eq $false))
 	{
-		if($recurse -eq $false)
-		{
-			$nonLocalFiles = Get-NTFSDataStreams -p $path | where {$_.stream -eq "Zone.Identifier"}	
-		}
-		else
-		{
-			$nonLocalFiles = Get-NTFSDataStreams -p $path -r | where {$_.stream -eq "Zone.Identifier"}		
-		}
-		
-		$regexFilter = "ZoneId=["
-		
-		if($intranet -eq $true)
-		{
-			$regexFilter = "$regexFilter"+"1|"
-		}
-		if($trusted -eq $true)
-		{
-			$regexFilter = "$regexFilter"+"2|"
-		}
-		if($internet -eq $true)
-		{
-			$regexFilter = "$regexFilter"+"3|"
-		}
-		if($untrusted -eq $true)
-		{
-			$regexFilter = "$regexFilter"+"4|"
-		}
-		
-		$regexFilter = $regexFilter -replace "\|$","]"
-		$filesToReturn = @()
-		foreach($file in $nonLocalFiles)
-		{
-			$zonedata = Get-Content $file.FileName -stream "Zone.Identifier"
-			$result = $zonedata -match $regexFilter
-			if($result -ne $null)
-			{
-				$filesToReturn = $filesToReturn + $file.FileName
-			}
-		}
-		for($i=0;$i -le $filesToReturn.GetUpperBound(0);$i++)
-		{
-			Get-Item $filesToReturn[$i]
-		}
+		$internet = $true
+	}
+
+	if($recurse -eq $false)
+	{
+		$nonLocalFiles = Get-NTFSDataStreams -p $path | where {$_.stream -eq "Zone.Identifier"}	
 	}
 	else
 	{
-		Throw "Cannot find path $path because it does not exist."
+		$nonLocalFiles = Get-NTFSDataStreams -p $path -r | where {$_.stream -eq "Zone.Identifier"}		
 	}
-}
+	
+	$regexFilter = "ZoneId=["
+	
+	if($intranet -eq $true)
+	{
+		$regexFilter = "$regexFilter"+"1|"
+	}
+	if($trusted -eq $true)
+	{
+		$regexFilter = "$regexFilter"+"2|"
+	}
+	if($internet -eq $true)
+	{
+		$regexFilter = "$regexFilter"+"3|"
+	}
+	if($untrusted -eq $true)
+	{
+		$regexFilter = "$regexFilter"+"4|"
+	}
+	
+	$regexFilter = $regexFilter -replace "\|$","]"
+	$filesToReturn = @()
+	foreach($file in $nonLocalFiles)
+	{
+		$zonedata = Get-Content $file.FileName -stream "Zone.Identifier"
+		$result = $zonedata -match $regexFilter
+		if($result -ne $null)
+		{
+			$filesToReturn = $filesToReturn + $file.FileName
+		}
+	}
+	for($i=0;$i -le $filesToReturn.GetUpperBound(0);$i++)
+	{
+		Get-Item $filesToReturn[$i]
+	}
+}	
