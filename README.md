@@ -14,6 +14,7 @@ As compared to PSCX: PSCX or Powershell Community Extensions is another set of b
 Changes in Version 2
 ======================
 Version 2 is committed to making the following changes over version 1
+
 -Better input validation
 
 -Powershell headers to be read from Get-help, get-details cmdlets.
