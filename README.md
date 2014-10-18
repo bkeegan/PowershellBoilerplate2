@@ -15,9 +15,13 @@ Changes in Version 2
 ======================
 Version 2 is committed to making the following changes over version 1
 -Better input validation
+
 -Powershell headers to be read from Get-help, get-details cmdlets.
+
 -GPLv3 licensing (version 1 was GPLv2)
+
 -More cmdlets!
+
 -An installable module (eventually)
 
 License
