@@ -25,13 +25,8 @@ function Get-PhysicalVideoController
 		[alias("c")]
 		[string]$computer="localhost"
 	)
-	if((Test-Connection $computer -Quiet) -eq $true)
-	{
-		$return = Get-WMIObject -ComputerName $computer win32_videocontroller | Where {$_.PNPDeviceID -notmatch "[ROOT|SW]\\.+"}
-		Return $return
-	}
-	else
-	{
-		Throw "The host, $computer, could not be contacted."
-	}
+
+	$return = Get-WMIObject -ComputerName $computer win32_videocontroller | Where {$_.PNPDeviceID -notmatch "[ROOT|SW]\\.+"}
+	Return $return
+
 }
