@@ -3,7 +3,7 @@
 	Performs a WMI query for physical video controllers (i.e. graphic cards)
 .DESCRIPTION 
 	A WMI Query will return all video controllers, even virtual video controllers. This cmdlet filters the results by excluding anything attached to the virtual hardware bus and the remaining results must be attached to some other bus (an actual physical bus such as PCI, AGP etc)
-	Please note that a VM's video controller will return as a physical network adapter because it is attached to the PCI bus.
+	Please note that a VM's video controller will return as a physical video controller because it is attached to the PCI bus.
 .NOTES 
     File Name  : Get-PhysicalVideoController.ps1 
     Author     : Brenton keegan - brenton.keegan@gmail.com 
