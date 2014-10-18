@@ -5,7 +5,7 @@ PowerShell Boilerplate v2 is the second iteration of this library. This library 
 
 As compared to PSCX: PSCX or Powershell Community Extensions is another set of boilerplate powershell cmdlets available on codeplex (http://pscx.codeplex.com/). Powershell Boilerplate, while overlaps in some ways, differs in the following
 
--Licensing: PSCX is under the "Microsoft Public License" (MS-PL) while this repository is under GPLv3. 
+-Licensing: PSCX is under the "Microsoft Public License" (MS-PL) while this repository is under GPLv3.
 
 -Looser definition of "boilerplate": This repository contains some more particular implentations (for example, methods for deploying applications and applying patches). The code is, however, designed to work in any Windows environment. 
 
