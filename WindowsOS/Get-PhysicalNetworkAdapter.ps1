@@ -20,20 +20,15 @@
 function Get-PhysicalNetworkAdapter
 {
     [cmdletbinding()]
-        Param
-        (
-			[parameter(Mandatory=$false,ValueFromPipeline=$true)]
-			[alias("c")]
-			[string]$computer="localhost"
-        )
-	
-	if((Test-Connection $computer -Quiet) -eq $true)
-	{                
-        $return = Get-WMIObject -ComputerName $computer win32_networkadapter | Where {$_.PNPDeviceID -notmatch "[ROOT|SW]\\.+"}
-        Return $return
-	}
-	else
-	{
-		Throw "The host, $computer, could not be contacted."
-	}
+	Param
+	(
+		[parameter(Mandatory=$false,ValueFromPipeline=$true)]
+		[alias("c")]
+		[string]$computer="localhost"
+	)
+
+             
+	$return = Get-WMIObject -ComputerName $computer win32_networkadapter | Where {$_.PNPDeviceID -notmatch "[ROOT|SW]\\.+"}
+	Return $return
+
 }
