@@ -28,6 +28,7 @@ Version 2 is committed to making the following changes over version 1
 License
 ======================
 PowerShell Boilerplate v2 - A collection of reusable powershell cmdlets
+
 Copyright (C) 2014  Brenton Keegan
 
 This program is free software: you can redistribute it and/or modify
