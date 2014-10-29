@@ -4,6 +4,7 @@
 .DESCRIPTION 
 	Fetches the created date on the mailbox calculates how many days has passed since the mailbox was created. Divides "ItemCount" and "DeletedItemCount" by the total number of days the mailbox has existed. 
 	This cmdlet returns the output of Get-MailBoxStatistics with an added property containing an average of how many items are created per day. 
+	Please Note: the values may be skewed if mailboxes were imported from previous versions of exchange which did not record deleted items. Overall item count will not include all items in user's history.
 .NOTES 
     File Name  : Find-ADEmailAddressOwner 
     Author     : Brenton keegan - brenton.keegan@gmail.com 
@@ -30,29 +31,31 @@ function Get-MailboxItemPerDay
 		[parameter(Mandatory=$true)]
 		[alias("cas")]
 		$casServer,
-		
+
 		[parameter(Mandatory=$false)]
 		[alias("nr")]
 		[switch]$doNotRound
 	)
 	
-	#imports
+	imports
 	$session = New-PSSession -configurationname Microsoft.Exchange -connectionURI http://$casServer/PowerShell
 	Import-PSSession $session 
-	
-	$mailbox = Get-Mailbox -id $identity 
-	$totalTime = New-TimeSpan -start $($mailbox.whenCreated) -end (Get-Date)
-	$mailboxStats = Get-MailboxStatistics -id $identity
-	$totalItems = $mailboxStats.DeletedItemCount + $mailboxStats.ItemCount
-	
-	$ratio = [int]$totalItems/[int]$totalTime.TotalDays
-	
-	if($doNotRound -eq $false)
+		
+	Process
 	{
-		$ratio = [System.Math]::Round($ratio, 0)
+		$mailbox = Get-Mailbox -id $identity 
+		$totalTime = New-TimeSpan -start $($mailbox.whenCreated) -end (Get-Date)
+		$mailboxStats = Get-MailboxStatistics -id $identity
+		$totalItems = $mailboxStats.DeletedItemCount + $mailboxStats.ItemCount
+		
+		$ratio = [int]$totalItems/[int]$totalTime.TotalDays
+		
+		if($doNotRound -eq $false)
+		{
+			$ratio = [System.Math]::Round($ratio, 0)
+		}
+		
+		$mailboxStats | Add-Member -Type NoteProperty -Name "ItemsPerDay" -Value $ratio
+		Return $mailboxStats
 	}
-	
-	$mailboxStats | Add-Member -Type NoteProperty -Name "ItemsPerDay" -Value $ratio
-	Return $mailboxStats
-	
 }
