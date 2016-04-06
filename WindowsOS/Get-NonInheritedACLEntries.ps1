@@ -46,6 +46,3 @@ Function Get-NonInheritedACLEntries
 
 	$ACLResults
 }
-
-
-Get-NonInheritedACLEntries -f "\\limcollege.edu\root\Public" | Export-CSV "C:\temp\PubACL.csv" -NoTypeInformation
