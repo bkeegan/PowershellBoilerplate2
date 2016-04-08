@@ -37,7 +37,7 @@ function Get-MailboxItemPerDay
 		[switch]$doNotRound
 	)
 	
-	imports
+	#imports
 	$session = New-PSSession -configurationname Microsoft.Exchange -connectionURI http://$casServer/PowerShell
 	Import-PSSession $session 
 		
