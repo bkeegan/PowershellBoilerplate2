@@ -2,14 +2,14 @@
 .SYNOPSIS 
 	Retrives mailbox logon statistics and returns entries where the username of the mailbox doesn't match the user accounts username that is connected to it.
 .DESCRIPTION 
-    Retrives mailbox logon statistics and returns entries where the username of the mailbox doesn't match the user accounts username that is connected to it. This may indicate that another user is viewing email in another individual's mailbox
+    	Retrives mailbox logon statistics and returns entries where the username of the mailbox doesn't match the user accounts username that is connected to it. This may indicate that another user is viewing email in another individual's mailbox
 .NOTES 
-    File Name  : Get-ExchangeUserMailboxMismatch.ps1
-    Author     : Brenton keegan - brenton.keegan@gmail.com 
-    Licenced under GPLv3  
+    	File Name  : Get-ExchangeUserMailboxMismatch.ps1
+    	Author     : Brenton keegan - brenton.keegan@gmail.com 
+    	Licenced under GPLv3  
 .LINK 
 	https://github.com/bkeegan/PowershellBoilerplate2
-    License: http://www.gnu.org/copyleft/gpl.html
+    	License: http://www.gnu.org/copyleft/gpl.html
 .EXAMPLE 
 	Get-ExchangeUserMailboxMismatch  -c "casServerName" -m "mailboxServerName"
 .EXAMPLE 
@@ -45,7 +45,7 @@ Function Get-ExchangeUserMailboxMismatch
 	Foreach($connectedExUser in $connectedExUsers)
 	{
 
-		$adUser = $connectedExUser.Windows2000Account -replace "LIM\\",""
+		$adUser = $connectedExUser.Windows2000Account -replace "+.\\",""
 		$adUser = get-aduser $adUser -property displayname
 		if ($connectedExUser.Username -ne $adUser.displayname)
 		{
